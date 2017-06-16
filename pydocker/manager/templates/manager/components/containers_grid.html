@@ -1,0 +1,47 @@
+{% for container in containers %}
+  <div class="mdl-cell mdl-cell--3-col">
+
+    <!-- Container card -->
+    <div class="mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text">{{ container.Names.0 }}</h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <b>Id:</b>
+        <span>{{ container.Id|slice:":16" }}</span>
+
+        <br>
+        <b>Image:</b>
+        <span>{{ container.Image }}</span>
+
+        <br>
+        <b>State:</b>
+        <span>{{ container.State }}</span>
+      </div>
+      <div class="mdl-card__actions">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+          Full Details
+        </a>
+      </div>
+      <div class="mdl-card__menu">
+        {% if container.State == 'exited' %}
+          <button
+              class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect text-green btn-container-start"
+              container-id="{{ container.Id }}"
+          >
+            <i class="material-icons">play_arrow</i>
+          </button>
+        {% elif container.State == 'running' %}
+          <button
+              class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect text-red btn-container-stop"
+              container-id="{{ container.Id }}"
+          >
+            <i class="material-icons">stop</i>
+          </button>
+        {% else %}
+            <i class="material-icons">warning</i>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}

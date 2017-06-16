@@ -1,0 +1,35 @@
+
+.padding-top-24 {
+    padding-top: 24px;
+}
+
+.padding-top-60 {
+    padding-top: 60px;
+}
+
+.rotate {
+    animation:spin 4s linear infinite;
+}
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.section-container {
+    width: 100%;
+}
+
+.text-gray {
+    color: #9E9E9E;
+}
+
+.text-green {
+    color: #4CAF50;
+}
+
+.text-red {
+    color: #F44336;
+}
+
+/**
+ * Realtime updates panel
+ */
+.realtime-panel {
+}

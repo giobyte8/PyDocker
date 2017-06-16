@@ -1,0 +1,43 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Containers</title>
+{% endblock %}
+
+{% block content %}
+  <div class="mdl-grid padding-top-60">
+
+    <!-- Section title -->
+    <div class="mdl-cell mdl-cell--10-col">
+      <h3>Containers</h3>
+    </div>
+
+    <!-- Real time panel -->
+    <div class="mdl-cell mdl-cell--2-col">
+      <div class="padding-top-24 realtime-panel">
+        <label for="switch-realtime" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
+          <input type="checkbox" id="switch-realtime" class="mdl-switch__input">
+          <span class="mdl-switch__label">Realtime updates</span>
+        </label>
+      </div>
+      <br>
+      <div id="progress-realtime-timer" class="mdl-progress mdl-js-progress"></div>
+    </div>
+  </div>
+
+  <div id="grid-containers" class="mdl-grid">
+
+    <!-- Temp loading section -->
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset padding-top-60">
+
+      <!-- MDL Progress Bar with Indeterminate Progress -->
+      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="{% static 'manager/js/containers.js' %}"></script>
+{% endblock %}
