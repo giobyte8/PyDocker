@@ -32,3 +32,11 @@ def containers_grid(req):
         return HttpResponse(html)
     else:
         return redirect('index')
+
+
+def container_details(req):
+    container_id = req.GET.get('container_id')
+    params = {
+        'container': docker.container_details(container_id)
+    }
+    return render(req, 'manager/containers/detail.html', params)
