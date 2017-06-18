@@ -6,33 +6,41 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mdl-grid padding-top-60">
+  <div class="row">
 
     <!-- Section title -->
-    <div class="mdl-cell mdl-cell--10-col">
+    <div class="col-xs-8">
       <h3>Containers</h3>
     </div>
 
     <!-- Real time panel -->
-    <div class="mdl-cell mdl-cell--2-col">
+    <div class="col-xs-4">
       <div class="padding-top-24 realtime-panel">
-        <label for="switch-realtime" class="mdl-switch mdl-js-switch mdl-js-ripple-effect">
-          <input type="checkbox" id="switch-realtime" class="mdl-switch__input">
-          <span class="mdl-switch__label">Realtime updates</span>
-        </label>
+        <span>Realtime updates</span>
+        <div class="material-switch pull-right">
+          <input type="checkbox" id="switch-realtime"/>
+          <label for="switch-realtime" class="label-success"></label>
+        </div>
+
+        <br>
+        <div class="progress margin-top-8">
+          <div
+            id="progress-refresh"
+            class="progress-bar"
+            role="progressbar"
+            style="width: 0%;">
+          </div>
+        </div>
       </div>
-      <br>
-      <div id="progress-realtime-timer" class="mdl-progress mdl-js-progress"></div>
     </div>
-  </div>
 
-  <div id="grid-containers" class="mdl-grid">
+    <div id="grid-containers" class="col-xs-12">
 
-    <!-- Temp loading section -->
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset padding-top-60">
-
-      <!-- MDL Progress Bar with Indeterminate Progress -->
-      <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+      <!-- Temp loading section -->
+      <div class="text-center"><br><br>
+        <span class="fa fa-4x fa-spin fa-cog"></span><br>
+        <h6>Loading containers</h6>
+      </div>
     </div>
   </div>
 {% endblock %}

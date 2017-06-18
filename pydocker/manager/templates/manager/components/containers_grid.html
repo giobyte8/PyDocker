@@ -1,47 +1,56 @@
-{% for container in containers %}
-  <div class="mdl-cell mdl-cell--3-col">
+<div class="table-responsive">
 
-    <!-- Container card -->
-    <div class="mdl-card mdl-shadow--2dp" style="margin: auto;">
-      <div class="mdl-card__title">
-        <h2 class="mdl-card__title-text">{{ container.Names.0 }}</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <b>Id:</b>
-        <span>{{ container.Id|slice:":16" }}</span>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Container Id</th>
+      <th>Image</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for container in containers %}
+      <tr>
 
-        <br>
-        <b>Image:</b>
-        <span>{{ container.Image }}</span>
+        <!-- Status column -->
+        <td class="text-center">
+          {% if container.State == 'exited' %}
+            <a
+                class="btn-container-start"
+                container-id="{{ container.Id }}"
+                href="{% url 'container_start' %}">
+              <span class="fa fa-circle color-gray"></span>
+            </a>
 
-        <br>
-        <b>State:</b>
-        <span>{{ container.State }}</span>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-          Full Details
-        </a>
-      </div>
-      <div class="mdl-card__menu">
-        {% if container.State == 'exited' %}
-          <button
-              class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect text-green btn-container-start"
-              container-id="{{ container.Id }}"
+          {% elif container.State == 'running' %}
+            <a
+                class="btn-container-stop"
+                container-id="{{ container.Id }}"
+                href="{% url 'container_stop' %}"
+            >
+              <span class="fa fa-circle color-green"></span>
+            </a>
+
+          {% else %}
+            <span class="fa fa-circle color-red"></span>
+          {% endif %}
+        </td>
+
+        <td>{{ container.Names.0 }}</td>
+        <td>{{ container.Id|slice:":16" }}</td>
+        <td>{{ container.Image }}</td>
+        <td class="text-center">
+          <a class="btn btn-sm btn-default"
+             href="{% url 'container_details' %}?container_id={{ container.Id }}"
           >
-            <i class="material-icons">play_arrow</i>
-          </button>
-        {% elif container.State == 'running' %}
-          <button
-              class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect text-red btn-container-stop"
-              container-id="{{ container.Id }}"
-          >
-            <i class="material-icons">stop</i>
-          </button>
-        {% else %}
-            <i class="material-icons">warning</i>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-{% endfor %}
+            <span class="fa fa-eye"></span>
+            <span>&nbsp;&nbsp;Details</span>
+          </a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>

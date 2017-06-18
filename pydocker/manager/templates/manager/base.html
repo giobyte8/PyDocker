@@ -8,49 +8,26 @@
   {% block head %}
   {% endblock %}
 
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-  <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet"
+        href="{% static 'manager/css/lib/bootstrap.min.css' %}"/>
   <link rel="stylesheet" href="{% static "manager/css/manager.css" %}"/>
   {% block stylesheets %}
   {% endblock %}
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout">
+{% include 'manager/components/navbar.html' %}
 
-  <!-- Top nav bar -->
-  <header class="mdl-layout__header">
-    <div class="mdl-layout-icon"></div>
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout__title">PyDocker</span>
-
-      <div class="mdl-layout-spacer"></div>
-      <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="#">Containers</a>
-        <a class="mdl-navigation__link" href="#">Stats</a>
-        <a class="mdl-navigation__link" href="#">Images</a>
-        <a class="mdl-navigation__link" href="#">Fabric</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Aside navigation for small devices -->
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout__title">PyDocker</span>
-    <nav class="mdl-navigation">
-      <a class="mdl-navigation__link" href="#">Containers</a>
-      <a class="mdl-navigation__link" href="#">Stats</a>
-      <a class="mdl-navigation__link" href="#">Images</a>
-      <a class="mdl-navigation__link" href="#">Fabric</a>
-    </nav>
-  </div>
-</div>
-
-<main class="mdl-layout__content section-container">
+<div class="container">
   {% block content %}
   {% endblock %}
-</main>
+</div>
 
-<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
 {% block scripts %}
 {% endblock %}
 </body>

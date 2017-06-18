@@ -1,0 +1,83 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Container details</title>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="no-margin-bottom">Container details</h3>
+      <h4 class="no-margin-top">{{ container.Name }}</h4>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Config</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <td class="text-right"><b>Name</b></td>
+          <td>{{ container.Name }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Hostname</b></td>
+          <td>{{ container.Config.Hostname }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Image</b></td>
+          <td>{{ container.Config.Image }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Networking</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <td class="text-right"><b>IP Address</b></td>
+          <td>{{ container.NetworkSettings.IPAddress }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Gateway</b></td>
+          <td>{{ container.NetworkSettings.Gateway }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Mac Address</b></td>
+          <td>{{ container.NetworkSettings.MacAddress }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-xs-12">
+      <h4>Mounted volumes</h4>
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+          <tr>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Read/Write</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for mount in container.Mounts %}
+            <tr>
+              <td>{{ mount.Type }}</td>
+              <td>{{ mount.Source }}</td>
+              <td>{{ mount.Destination }}</td>
+              <td>{{ mount.RW }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}

@@ -1,63 +1,22 @@
 
 var refreshGridTimer;
+var urlStartContainer = '/api/container/start'
+var urlStopContainer = '/api/container/stop'
 
 $(document).ready(function () {
-
-  // Set initial progress
-  document
-    .querySelector('#progress-realtime-timer')
-    .addEventListener('mdl-componentupgraded', function() {
-      this.MaterialProgress.setProgress(0);
-    });
 
   // Refresh containers grid for first time
   refreshGrid()
 })
 
-$(document).on('click', '.btn-container-start', function () {
-  var _self = $(this)
-  _self.css('display', 'none')
-
-  var url = '/api/containers/start'
-  $.ajax({
-    method: 'POST',
-    url: url,
-    data: {
-      container_id: _self.attr('container-id')
-    },
-    success: function () {
-      refreshGrid()
-      setTimeout(function () {
-        refreshGrid()
-      }, 2000)
-    },
-    error: function () {
-      console.error('Error occurred')
-    }
-  })
+$(document).on('click', '.btn-container-start', function (e) {
+  e.preventDefault()
+  onToggleContainerStatusClicked($(this), true)
 })
 
-$(document).on('click', '.btn-container-stop', function () {
-  var _self = $(this)
-  _self.css('display', 'none')
-
-  var url = '/api/containers/stop'
-  $.ajax({
-    method: 'POST',
-    url: url,
-    data: {
-      container_id: _self.attr('container-id')
-    },
-    success: function () {
-      refreshGrid()
-      setTimeout(function () {
-        refreshGrid()
-      }, 2000)
-    },
-    error: function () {
-      console.error('Error occurred')
-    }
-  })
+$(document).on('click', '.btn-container-stop', function (e) {
+  e.preventDefault()
+  onToggleContainerStatusClicked($(this), false)
 })
 
 /** Manage changes on 'realtime' switch */
@@ -69,9 +28,67 @@ $(document).on('change', '#switch-realtime', function () {
   }
 })
 
+/**
+ * Manages clicks over start/stop container buttons
+ * from containers grid
+ *
+ * @param button JQuery target element
+ * @param startContainer Indicates if start or stop container
+ */
+function onToggleContainerStatusClicked(button, startContainer) {
+  var $icon = button.find('span')
+
+  // If currently working, abort operation
+  if ($icon.hasClass('fa-cog')) {
+    return;
+  }
+
+  // Show loading animation
+  $icon.removeClass('fa-circle')
+  $icon.addClass('fa-spin fa-cog')
+
+  // Retrieve data for api call
+  var url = button.attr('href')
+  var containerId = button.attr('container-id')
+
+  $.ajax({
+    method: 'POST',
+    url: url,
+    data: {
+      container_id: containerId
+    },
+    success: function (data, textStatus, xhr) {
+      if (xhr.status === 204) {
+
+        // Update button mode
+        if (startContainer) {
+          button.removeClass('btn-container-start')
+          button.attr('href', urlStopContainer)
+          button.addClass('btn-container-stop')
+
+          // Show start icon
+          $icon.removeClass('fa-spin fa-cog color-gray')
+          $icon.addClass('fa-circle color-green')
+        } else {
+          button.removeClass('btn-container-stop')
+          button.attr('href', urlStartContainer)
+          button.addClass('btn-container-start')
+
+          // Show stop icon
+          $icon.removeClass('fa-spin fa-cog color-green')
+          $icon.addClass('fa-circle color-gray')
+        }
+      }
+    },
+    error: function () {
+      console.error('Error occurred')
+    }
+  })
+}
+
 function scheduleGridRefresh(inSeconds) {
   var progress = 100 - inSeconds * 20
-  document.querySelector('#progress-realtime-timer').MaterialProgress.setProgress(progress)
+  $('#progress-refresh').css('width', progress + '%')
 
   if (inSeconds <= 0) {
     refreshGrid()
@@ -91,7 +108,7 @@ function stopScheduledGridRefresh() {
     clearTimeout(refreshGridTimer)
     refreshGridTimer = 0
 
-    document.querySelector('#progress-realtime-timer').MaterialProgress.setProgress(0)
+    $('#progress-refresh').css('width', '0%')
   }
 }
 

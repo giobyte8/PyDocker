@@ -1,0 +1,17 @@
+
+<!-- Top nav bar -->
+<header class="mdl-layout__header">
+  <div class="mdl-layout-icon"></div>
+  <div class="mdl-layout__header-row">
+    <span class="mdl-layout__title">PyDocker</span>
+
+    <div class="mdl-layout-spacer"></div>
+    {% include 'manager/components/nav_bar/links.html' %}
+  </div>
+</header>
+
+<!-- Aside navigation for small devices -->
+<div class="mdl-layout__drawer">
+  <span class="mdl-layout__title">PyDocker</span>
+  {% include 'manager/components/nav_bar/links.html' %}
+</div>
