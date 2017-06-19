@@ -13,7 +13,8 @@ def index(req):
 
     # Assembly context
     params = {
-        'containers': containers
+        'containers': containers,
+        'nav_active': 'containers'
     }
 
     return render(req, 'manager/containers/index.html', params)
@@ -25,7 +26,7 @@ def containers_grid(req):
 
         # Assembly context
         params = {
-            'containers': containers
+            'containers': containers,
         }
 
         html = render_to_string('manager/components/containers_grid.html', params)
