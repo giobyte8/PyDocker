@@ -20,7 +20,11 @@
             <a
                 class="btn-container-start"
                 container-id="{{ container.Id }}"
-                href="{% url 'container_start' %}">
+                href="{% url 'container_start' %}"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Start container"
+            >
               <span class="fa fa-circle color-gray"></span>
             </a>
 
@@ -29,6 +33,9 @@
                 class="btn-container-stop"
                 container-id="{{ container.Id }}"
                 href="{% url 'container_stop' %}"
+                data-toggle="tooltip"
+                data-placement="right"
+                title="Stop container"
             >
               <span class="fa fa-circle color-green"></span>
             </a>
