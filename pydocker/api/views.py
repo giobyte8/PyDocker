@@ -7,16 +7,16 @@ from manager.services import docker
 
 
 @csrf_exempt
-def start_container(req):
+def container_start(req):
     container_id = req.POST.get('container_id')
-    code = docker.start_container(container_id)
+    code = docker.container_start(container_id)
 
     return HttpResponse(status=code)
 
 
 @csrf_exempt
-def stop_container(req):
+def container_stop(req):
     container_id = req.POST.get('container_id')
-    code = docker.stop_container(container_id)
+    code = docker.container_stop(container_id)
 
     return HttpResponse(status=code)

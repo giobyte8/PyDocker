@@ -13,29 +13,21 @@
     </div>
 
     <div class="col-md-6">
-      <h4>Config</h4>
+      <h4>Status</h4>
       <table class="table table-bordered table-striped">
         <tbody>
         <tr>
-          <td class="text-right"><b>Name</b></td>
-          <td>{{ container.Name }}</td>
+          <td class="text-right"><b>Status</b></td>
+          <td>{{ container.State.Status }}</td>
         </tr>
         <tr>
-          <td class="text-right"><b>Hostname</b></td>
-          <td>{{ container.Config.Hostname }}</td>
+          <td class="text-right"><b>Started at</b></td>
+          <td>{{ container.State.StartedAt }}</td>
         </tr>
         <tr>
-          <td class="text-right"><b>Image</b></td>
-          <td>{{ container.Config.Image }}</td>
+          <td class="text-right"><b>Finished at</b></td>
+          <td>{{ container.State.FinishedAt }}</td>
         </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="col-md-6">
-      <h4>Networking</h4>
-      <table class="table table-bordered table-striped">
-        <tbody>
         <tr>
           <td class="text-right"><b>IP Address</b></td>
           <td>{{ container.NetworkSettings.IPAddress }}</td>
@@ -52,9 +44,63 @@
       </table>
     </div>
 
+    <div class="col-md-6">
+      <h4>Config</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <td class="text-right"><b>Name</b></td>
+          <td>{{ container.Name }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Image</b></td>
+          <td>{{ container.Config.Image }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Hostname</b></td>
+          <td>{{ container.Config.Hostname }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>TTY</b></td>
+          <td>{{ container.Config.Tty }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Open <code>stdin</code>?</b></td>
+          <td>{{ container.Config.OpenStdin }}</td>
+        </tr>
+        <tr>
+          <td class="text-right"><b>Attach <code>stdout</code>?</b></td>
+          <td>{{ container.Config.AttachStdout }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <h4>Port bindings</h4>
+      <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Host IP</th>
+          <th>Host Port</th>
+          <th>Container Port</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for port in container_ports %}
+          <tr>
+            <td>{{ port.host_ip }}</td>
+            <td>{{ port.host_port }}</td>
+            <td>{{ port.container_port }}</td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+
     <div class="col-xs-12">
       <h4>Mounted volumes</h4>
-
       <div class="table-responsive">
         <table class="table table-bordered table-striped">
           <thead>
@@ -79,5 +125,48 @@
       </div>
     </div>
 
+    <!-- Container stats -->
+    <div class="col-xs-12">
+      <h4>Container stats</h4>
+      <table class="table table-bordered table-striped">
+        <tbody>
+        <tr>
+          <td><b>Pids</b></td>
+          <td>{{ container_stats.pids }}</td>
+        </tr>
+        <tr>
+          <td><b>Memory usage</b></td>
+          <td>{{ container_stats.mem_usage }}</td>
+        </tr>
+        <tr>
+          <td><b>Memory limit</b></td>
+          <td>{{ container_stats.mem_limit }}</td>
+        </tr>
+        <tr>
+          <td><b>Memory percent</b></td>
+          <td>{{ container_stats.mem_percent }}</td>
+        </tr>
+        <tr>
+          <td><b>CPU usage</b></td>
+          <td>{{ container_stats.cpu_usage }}</td>
+        </tr>
+
+        <!-- Network stats -->
+        {% for interface_stats in container_stats.net_stats %}
+          <tr>
+            <td><b>Network interface: {{ interface_stats.interface_name }}</b></td>
+            <td>
+              <span class="fa fa-long-arrow-down"></span>
+              <span>&nbsp;{{ interface_stats.rx_data }}</span>
+
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span class="fa fa-long-arrow-up"></span>
+              <span>&nbsp;{{ interface_stats.tx_data }}</span>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 {% endblock %}

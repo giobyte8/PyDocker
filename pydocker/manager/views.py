@@ -37,6 +37,8 @@ def containers_grid(req):
 def container_details(req):
     container_id = req.GET.get('container_id')
     params = {
-        'container': docker.container_details(container_id)
+        'container': docker.container_details(container_id),
+        'container_ports': docker.container_ports(container_id),
+        'container_stats': docker.container_stats(container_id)
     }
     return render(req, 'manager/containers/detail.html', params)
