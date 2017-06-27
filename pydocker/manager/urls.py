@@ -8,5 +8,10 @@ urlpatterns = [
         r'^/containers/details$',
         views.container_details,
         name='container_details'
+    ),
+    url(
+        r'^/containers/stats$',
+        views.containers_stats,
+        name='containers_stats'
     )
 ]

@@ -5,8 +5,11 @@ base_url = 'http://127.0.0.1:4001/'
 base_url_containers = base_url + 'containers/'
 
 
-def containers():
-    response = requests.get(base_url_containers + 'json', {'all': True})
+def containers(all_containers=True):
+    response = requests.get(
+        base_url_containers + 'json',
+        {'all': all_containers}
+    )
     return response.json()
 
 
@@ -39,6 +42,44 @@ def container_ports(container_id):
             })
 
     return ports
+
+
+def container_stats_raw(container_id):
+    url = base_url_containers + container_id + '/stats'
+    response = requests.get(url, {'stream': False})
+    stats = response.json()
+
+    # Mem usage
+    mem_usage = 0
+    mem_limit = 0
+    if 'usage' in stats['memory_stats'].keys():
+        mem_usage = stats_helper.bytes_to_mb(stats['memory_stats']['usage'])
+        mem_limit = stats_helper.bytes_to_mb(stats['memory_stats']['limit'])
+
+        # Round to two decimal places
+        mem_usage = round(mem_usage, 2)
+        mem_limit = round(mem_limit, 0)
+
+    # CPU Usage
+    # TODO
+
+    # Network IO
+    networks = stats['networks'].items()
+    net_stats = []
+    for interface_name, transmitted in networks:
+        net_stats.append({
+            'interface_name': interface_name,
+            'rx_data': transmitted['rx_bytes'],
+            'tx_data': transmitted['tx_bytes']
+        })
+
+    return {
+        'container_id': stats['id'],
+        'container_name': stats['name'],
+        'mem_usage': mem_usage,
+        'mem_limit': mem_limit,
+        'net_stats': net_stats
+    }
 
 
 def container_stats(container_id):

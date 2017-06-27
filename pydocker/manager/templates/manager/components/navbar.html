@@ -21,6 +21,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
+
+        <!-- Containers nav link -->
         {% if nav_active == 'containers' %}
           <li class="active">
         {% else %}
@@ -28,7 +30,16 @@
         {% endif %}
             <a href="{% url 'containers' %}">Contenedores</a>
         </li>
-        <li><a href="#">Stats</a></li>
+
+        <!-- Stats nav link -->
+        {% if nav_active == 'stats' %}
+          <li class="active">
+        {% else %}
+          <li>
+        {% endif %}
+            <a href="{% url 'containers_stats' %}">Stats</a>
+        </li>
+
         <li><a href="#">Images</a></li>
         <li><a href="#">Fabric</a></li>
       </ul>

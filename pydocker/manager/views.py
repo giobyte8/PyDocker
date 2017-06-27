@@ -43,3 +43,9 @@ def container_details(req):
         'container_stats': docker.container_stats(container_id)
     }
     return render(req, 'manager/containers/detail.html', params)
+
+
+def containers_stats(req):
+    return render(req, 'manager/containers/stats.html', {
+        'nav_active': 'stats'
+    })

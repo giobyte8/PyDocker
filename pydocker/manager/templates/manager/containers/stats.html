@@ -1,0 +1,27 @@
+{% extends 'manager/base.html' %}
+{% load static %}
+
+{% block head %}
+  <title>Containers stats</title>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-xs-12 col-md-6">
+      <h4>Memory usage</h4>
+
+      <div class="chart-container" style="position: relative; width:100%">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"
+      integrity="sha256-VNbX9NjQNRW+Bk02G/RO6WiTKuhncWI4Ey7LkSbE+5s="
+      crossorigin="anonymous"></script>
+  <script src="{% static 'manager/js/stats.js' %}"></script>
+{% endblock %}
