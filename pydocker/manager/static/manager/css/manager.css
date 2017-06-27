@@ -42,6 +42,15 @@
 
 
 /**
+ * Chart container
+ */
+.chart-container {
+    position: relative;
+    width: 100%;
+}
+
+
+/**
  * Material switch
  */
 .material-switch > input[type="checkbox"] {

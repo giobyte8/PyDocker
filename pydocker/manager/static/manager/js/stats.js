@@ -11,7 +11,7 @@ function fetchStats() {
     url: urlStats,
     success: function (stats, textStatus, xhr) {
       if (xhr.status === 200) {
-        statsToChart(stats)
+        createMemoryChart(stats)
       } else {
         console.error('Stats could not be fetched')
       }
@@ -22,41 +22,52 @@ function fetchStats() {
   })
 }
 
-function statsToChart(stats) {
-  var labels = []
+function createMemoryChart(stats) {
   var maxAllowed = 0
-  var datasets = []
-  var dataset = {
-    label: 'Usage in MB',
-    backgroundColor: '#16a085',
-    data: []
-  }
-  datasets.push(dataset)
+  var labels = []
+  var dataSets = []
 
+  // Create data set with mem usage per container
+  var memData = []
   for (var i = 0; i < stats.length; i++) {
     var containerStats = stats[i]
 
     labels.push(containerStats.container_name)
-    dataset.data.push(containerStats.mem_usage)
+    memData.push(containerStats.mem_usage)
     maxAllowed = containerStats.mem_limit
   }
 
-  var ctx = document.getElementById('chart')
+  // Add mem usage data set to chart data sets
+  dataSets.push({
+    label: 'Memory usage (MB)',
+    backgroundColor: '#16A085',
+    data: memData
+  })
+
+  // Draw chart
+  var ctx = document.getElementById('chart-mem')
   var chart = new Chart(ctx, {
     type: 'bar',
     data: {
       'labels': labels,
-      datasets: datasets
+      'datasets': dataSets
     },
     options: {
       tooltips: {
-        intersect: false,
         callbacks: {
           label: function(tooltipItem) {
-            return tooltipItem.yLabel +  ' MB'
+            return tooltipItem.yLabel + ' MB'
           }
         }
       }
     }
   })
+
+  // Show chart
+  var $chartCanvas = $('#chart-mem');
+  $chartCanvas.parent()
+    .parent()
+    .find('.chart-loading-container')
+    .addClass('hidden')
+  $chartCanvas.parent().removeClass('hidden')
 }

@@ -10,8 +10,25 @@
     <div class="col-xs-12 col-md-6">
       <h4>Memory usage</h4>
 
-      <div class="chart-container" style="position: relative; width:100%">
-        <canvas id="chart"></canvas>
+      <div class="chart-loading-container text-center">
+        <br><br>
+        <span class="fa fa-4x fa-spin fa-cog chart-loading"></span>
+      </div>
+      <div id="mem-chart-container" class="chart-container hidden">
+        <canvas id="chart-mem"></canvas>
+      </div>
+    </div>
+
+    <!-- CPU Usage chart -->
+    <div class="col-xs-12 col-md-6">
+      <h4>CPU Usage</h4>
+
+      <div class="chart-loading-container text-center">
+        <br><br>
+        <span class="fa fa-4x fa-spin fa-cog chart-loading"></span>
+      </div>
+      <div id="cpu-chart-container" class="chart-container hidden">
+        <canvas id="chart-cpu"></canvas>
       </div>
     </div>
   </div>
