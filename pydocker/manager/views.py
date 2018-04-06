@@ -49,3 +49,9 @@ def containers_stats(req):
     return render(req, 'manager/containers/stats.html', {
         'nav_active': 'stats'
     })
+
+
+def images_index(req):
+    return render(req, 'manager/images/index.html', {
+        'nav_active': 'images'
+    })

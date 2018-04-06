@@ -139,3 +139,7 @@ def container_stop(container_id):
     url = base_url_containers + container_id + '/stop'
     response = requests.post(url)
     return response.status_code
+
+
+def images():
+    pass

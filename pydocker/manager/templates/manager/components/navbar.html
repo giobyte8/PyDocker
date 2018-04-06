@@ -25,22 +25,37 @@
         <!-- Containers nav link -->
         {% if nav_active == 'containers' %}
           <li class="active">
+            <a href="#">Containers</a>
+          </li>
         {% else %}
           <li>
-        {% endif %}
             <a href="{% url 'containers' %}">Contenedores</a>
-        </li>
+          </li>
+        {% endif %}
 
         <!-- Stats nav link -->
         {% if nav_active == 'stats' %}
           <li class="active">
+            <a href="#">Stats</a>
+          </li>
         {% else %}
           <li>
-        {% endif %}
             <a href="{% url 'containers_stats' %}">Stats</a>
-        </li>
+          </li>
+        {% endif %}
 
-        <li><a href="#">Images</a></li>
+        <!-- Images nav link -->
+        {% if nav_active == 'images' %}
+          <li class="active">
+            <a href="#">Images</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'images_index' %}">Images</a>
+          </li>
+        {% endif %}
+
+
         <li><a href="#">Fabric</a></li>
       </ul>
     </div>

@@ -13,5 +13,10 @@ urlpatterns = [
         r'^/containers/stats$',
         views.containers_stats,
         name='containers_stats'
-    )
+    ),
+    url(
+        r'^/images$',
+        views.images_index,
+        name='images_index'
+    ),
 ]
