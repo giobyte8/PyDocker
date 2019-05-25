@@ -1,0 +1,13 @@
+#
+# Image used to run python applications with
+# requirements.txt on its root
+
+FROM python:3.6-stretch
+
+RUN mkdir /app
+WORKDIR /app
+
+# Install app dependencies during image build phase
+COPY ./requirements.txt /app
+RUN pip install --no-cache-dir -r requirements.txt
+ENV PYTHONUNBUFFERED 1
