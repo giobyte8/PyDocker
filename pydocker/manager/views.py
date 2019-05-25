@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 
-from services import docker
+from .services import docker
 
 
 def index(req):
