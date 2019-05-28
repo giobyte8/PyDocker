@@ -1,7 +1,7 @@
 import requests
 from . import stats_helper
 
-base_url = 'http://127.0.0.1:4001/'
+base_url = 'http://192.168.0.11:4001/'
 base_url_containers = base_url + 'containers/'
 
 
@@ -24,7 +24,8 @@ def container_ports(container_id):
     ports = []
 
     # If container is active, retrieve port bindings from network settings
-    if len(container['NetworkSettings']['Ports'].items()) > 0:
+    if container['NetworkSettings']['Ports'] is not None and \
+       len(container['NetworkSettings']['Ports'].items()) > 0:
         ports_items = container['NetworkSettings']['Ports'].items()
         for port_name, hostPorts in ports_items:
             ports.append({
@@ -32,7 +33,7 @@ def container_ports(container_id):
                 'host_ip': hostPorts[0]['HostIp'],
                 'host_port': hostPorts[0]['HostPort']
             })
-    else:
+    elif container['HostConfig']['PortBindings'] is not None:
         ports_items = container['HostConfig']['PortBindings'].items()
         for port_name, hostPorts in ports_items:
             ports.append({
@@ -88,42 +89,53 @@ def container_stats(container_id):
     stats = response.json()
 
     # Mem usage
-    mem_usage = stats['memory_stats']['usage']
-    mem_limit = stats['memory_stats']['limit']
-    mem_percent = stats_helper.calculate_mem_percent(
-        stats['memory_stats']['usage'],
-        stats['memory_stats']['limit']
-    )
+    mem_usage = 0
+    mem_percent = 0
+    mem_limit = 0
+    if 'usage' in stats['memory_stats'].keys():
+        mem_usage = stats['memory_stats']['usage']
+        mem_limit = stats['memory_stats']['limit']
+        mem_percent = stats_helper.calculate_mem_percent(
+            stats['memory_stats']['usage'],
+            stats['memory_stats']['limit']
+        )
 
     # CPU Usage percent
-    cores = len(stats['cpu_stats']['cpu_usage']['percpu_usage'])
-    cpu_usage = stats['cpu_stats']['cpu_usage']['total_usage']
-    system_usage = stats['cpu_stats']['system_cpu_usage']
-    prev_cpu = stats['precpu_stats']['cpu_usage']['total_usage']
-    prev_system = stats['precpu_stats']['system_cpu_usage']
-    cpu_percent = stats_helper.calculate_cpu_percent(
-        prev_cpu,
-        prev_system,
-        cpu_usage,
-        system_usage,
-        cores
-    )
+    cpu_percent = 0
+    if 'percpu_usage' in stats['cpu_stats']['cpu_usage'].keys():
+        cores = len(stats['cpu_stats']['cpu_usage']['percpu_usage'])
+        cpu_usage = stats['cpu_stats']['cpu_usage']['total_usage']
+        system_usage = stats['cpu_stats']['system_cpu_usage']
+        prev_cpu = stats['precpu_stats']['cpu_usage']['total_usage']
+        prev_system = stats['precpu_stats']['system_cpu_usage']
+        cpu_percent = stats_helper.calculate_cpu_percent(
+            prev_cpu,
+            prev_system,
+            cpu_usage,
+            system_usage,
+            cores
+        )
 
     # Network IO
-    networks = stats['networks'].items()
     net_stats = []
-    for interface_name, transmitted in networks:
-        net_stats.append({
-            'interface_name': interface_name,
-            'rx_data': stats_helper.bytes_to_human(transmitted['rx_bytes']),
-            'tx_data': stats_helper.bytes_to_human(transmitted['tx_bytes'])
-        })
+    if 'networks' in stats.keys():
+        networks = stats['networks'].items()
+        for interface_name, transmitted in networks:
+            net_stats.append({
+                'interface_name': interface_name,
+                'rx_data': stats_helper.bytes_to_human(transmitted['rx_bytes']),
+                'tx_data': stats_helper.bytes_to_human(transmitted['tx_bytes'])
+            })
+
+    pids = 0
+    if 'current' in stats['pids_stats'].keys():
+        pids = stats['pids_stats']['current']
 
     return {
         'mem_usage': stats_helper.bytes_to_human(mem_usage),
         'mem_limit': stats_helper.bytes_to_human(mem_limit),
         'mem_percent': '{}%'.format(mem_percent),
-        'pids': stats['pids_stats']['current'],
+        'pids': pids,
         'cpu_usage': '{}%'.format(cpu_percent),
         'net_stats': net_stats
     }
