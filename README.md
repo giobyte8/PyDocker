@@ -18,9 +18,10 @@ Manage docker containers from a human friendly WebUI
 - Connect to remote docker servers
 
 ## How it looks like?
-
+Containers listing:
 ![Screen_shot](http://i.imgur.com/UZV3e0s.png)
 
+Container details:
 ![Details](./docs/screenshots/details.png)
 
 ## How to deploy?
