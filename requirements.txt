@@ -1,7 +1,7 @@
 backports.ssl-match-hostname==3.5.0.1
 certifi==2023.7.22
 chardet==3.0.3
-Django==3.2.24
+Django==3.2.25
 docker==2.3.0
 docker-pycreds==0.2.1
 idna==2.5
